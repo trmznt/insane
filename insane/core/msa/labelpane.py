@@ -33,6 +33,7 @@ class LabelPane(BasePane):
         self.model().signals().LabelSelectionUpdated.connect( self.update_label )
         self.model().signals().ContentUpdated.connect(self.update_view)
 
+
     def set_painter(self, painter=None):
         painter = painter or LabelPainter( self, self.env().fonts['label'] )
         super(LabelPane, self).set_painter( painter )
@@ -53,6 +54,9 @@ class LabelPane(BasePane):
     def update_label(self, indexes):
         # XXX: this need to be optimized
         self.update_view()
+
+    def update_environment(self):
+        self.set_painter()
 
 
 class LabelPaneStatusBar( IStatusBar ):

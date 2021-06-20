@@ -115,6 +115,12 @@ class LabelPaneActions( IMainActions ):
         self._REPORT_LEN = self.create_action('Report Length',
                 self.report_len, None, 'report-len', 'Report sequence length stats')
 
+        self._INCREASE_FONT = self.create_action('Increase Font',
+                self.increase_font, None, 'increase-font', 'Increase font size')
+
+        self._DECREASE_FONT = self.create_action('Decrease Font',
+                self.decrease_font, None, 'decrease-font', 'Decrease font size')
+
 
     def edit_copy(self):
         s = self.model().selection()
@@ -325,6 +331,9 @@ class LabelPaneActions( IMainActions ):
 
     def condense(self):
         m = self.model()
+        if not m._msa.is_unilen():
+            alert('All sequences to be condensed must be in the same length!')
+            return
         c = funcs.condensed(m._msa)
         c.set_filename('~')
         self.view(c)
@@ -366,6 +375,18 @@ class LabelPaneActions( IMainActions ):
         lengths.sort()
         print('Max len: %d at %d' % (lengths[-1][0], lengths[-1][1]))
         print('Min len: %d at %d' % (lengths[0][0], lengths[0][1]))
+
+
+    def increase_font(self):
+        self.pane().env().increase_font()
+        self.get_mainwin().mainframe().EnvironmentChanged.emit()
+
+
+    def decrease_font(self):
+        self.pane().env().decrease_font()
+        self.get_mainwin().mainframe().EnvironmentChanged.emit()
+
+        #import IPython; IPython.embed()
 
     def menu_layout(self):
         return [
@@ -437,6 +458,8 @@ class LabelPaneActions( IMainActions ):
                             [   self._ADD_SPLITTER,
                                 self._REMOVE_SPLITTER,
                             ]),
+                        self._INCREASE_FONT,
+                        self._DECREASE_FONT,
                     ]),
 
                 ( '&Help',

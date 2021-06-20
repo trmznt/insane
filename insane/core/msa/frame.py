@@ -39,6 +39,7 @@ class SequenceFrame(BaseFrame):
 
         pane = LabelPane( self.model(), LabelView )
         pane.set_env( self.env() )
+        pane.set_mainframe( self )
         pane.init_layout( header=BlankHeader(pane) )
         self.insert_pane( pane )
 

@@ -39,6 +39,7 @@ class SequencePane(BasePane):
         self.model().signals().ContentUpdated.connect( self.update_view )
         self.model().signals().SequenceTypeChanged.connect( self.set_painter )
 
+
     def ruler_startpos(self):
         return self._ruler_startpos
 
@@ -77,6 +78,9 @@ class SequencePane(BasePane):
         # XXX: this thing needs to be optimized
         self.update_view()
 
+    def update_environment(self):
+        self.set_painter()
+        self.update_view()
 
 
 class SequencePaneStatusBar( IStatusBar ):

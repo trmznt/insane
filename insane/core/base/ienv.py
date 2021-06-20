@@ -99,3 +99,19 @@ class IEnv(object):
 
     def set_activeview(self, win):
         self._activeview = win
+
+    def increase_font(self):
+        self.set_lineheight( self.lineheight() + 3 )
+        self.set_charwidth( self.charwidth() + 2 )
+        self.fonts = {
+            'sequence': ('Monospace', self.fonts['sequence'][1] + 2 ),
+            'label': QtGui.QFont('Monospace', self.fonts['label'].pointSize() + 2 )
+        }
+
+    def decrease_font(self):
+        self.set_lineheight( self.lineheight() - 3 )
+        self.set_charwidth( self.charwidth() - 2 )
+        self.fonts = {
+            'sequence': ('Monospace', self.fonts['sequence'][1] - 2 ),
+            'label': QtGui.QFont('Monospace', self.fonts['label'].pointSize() - 2 )
+        }

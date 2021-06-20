@@ -174,6 +174,8 @@ class BaseFrame(QtWidgets.QFrame):
         self._splitter = ISplitter( QtCore.Qt.Horizontal )
         self._block_resize_event = False
 
+        self.EnvironmentChanged.connect( self.update_environment )
+
 
     def mainpane(self):
         return self._vscrollbarpane
@@ -255,6 +257,19 @@ class BaseFrame(QtWidgets.QFrame):
 
     def set_activeview(self, view):
         self.parent().set_activepane( view.pane() )
+
+    def update_environment(self):
+        for p in self._panes:
+            p.update_environment()
+
+    ##
+    ## SIGNALS
+    ## These signals will be propagated within this frame
+    ##
+
+    # EnvironmentChanged is emitted when changes occured in any of environment setting,
+    # such as font resize etc; the object is the environment
+    EnvironmentChanged = QtCore.pyqtSignal()
 
 
 class BasePane(QtWidgets.QFrame):
@@ -500,6 +515,8 @@ class BasePane(QtWidgets.QFrame):
         for i in range(0, self._splitter.count()):
             w = self._splitter.widget(i)
             w.widget().update()
+        if self.header(): self.header().update()
+        if self.footer(): self.footer().update()
 
     def update_content(self, rect):
         if rect:
@@ -528,6 +545,9 @@ class BasePane(QtWidgets.QFrame):
             super(BasePane, self).setFocus()
         self.ActiveViewChanged.emit( self._splitter.widget(0).widget() )
 
+    def update_environment(self):
+        self.set_painter()
+
     # HELPERS
 
     def width_hint(self):
@@ -553,6 +573,7 @@ class BasePane(QtWidgets.QFrame):
 
     ##
     ## SIGNALS
+    ## These signals will be propagated within this pane
     ##
 
     # vscrollsplitter is emitted when vertical scroll bar in VScrollbarPane is moved
@@ -850,7 +871,3 @@ class BlankFooter(BlankView):
 
     def sizeHint(self):
         return QtCore.QSize( 0, self._pane.footer_height() )
-
-
-
-
