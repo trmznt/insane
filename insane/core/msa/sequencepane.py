@@ -212,7 +212,9 @@ class SeqPainter(object):
         painter.drawRect(0, 0, self.charwidth(), self.lineheight())
         painter.setPen( fg_color )
         painter.setFont( self.seqfont.font )
-        painter.drawText(1, (self.lineheight() + self.seqfont.fontmetrics.ascent())/2, chr(c))
+        painter.drawText(1,
+                         int((self.lineheight() + self.seqfont.fontmetrics.ascent()) / 2),
+                         chr(c))
         painter.end()
         return p
 
@@ -461,6 +463,13 @@ class NavKeyController( object ):
             cerr('alt pressed')
         elif k == QtCore.Qt.Key_Control:
             cerr('ctrl pressed')
+        elif mod & QtCore.Qt.AltModifier:
+            if k == QtCore.Qt.Key_N:
+                cerr('alt-N pressed')
+            elif k == QtCore.Qt.Key_Minus:
+                cerr('alt-- pressed')
+            elif k == QtCore.Qt.Key_Underscore:
+                cerr('alt-_ pressed')
         else:
             c = bytes(ev.text(), 'ASCII')
             if c:

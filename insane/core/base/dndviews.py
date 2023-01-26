@@ -143,9 +143,9 @@ class DNDLabel(object):
         self._dragidx = idx
         label = self.model()[idx].label
         lineheight = v.lineheight()
-        baseline = (lineheight + fm.ascent())/2
+        baseline = int((lineheight + fm.ascent()) / 2)
         width = fm.width(label)
-        hotspot = QtCore.QPoint( width/2, lineheight/2 )
+        hotspot = QtCore.QPoint(int(width / 2), int(lineheight / 2))
         drag = QtGui.QDrag(v)
 
         pixmap = QtGui.QPixmap(width, lineheight)

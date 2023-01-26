@@ -100,6 +100,7 @@ class LabelPainter(object):
 
     def draw_label(self, painter, idx, baseline, label, hilighted=False, selected=False):
         """ actual label drawing function, can be overriden by user """
+        baseline = int(baseline)
         painter.drawText(self._margin, baseline, "%3d:" % idx)
         if selected:
             painter.setBackground( QtCore.Qt.blue )
