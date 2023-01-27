@@ -43,7 +43,7 @@ class IVerticalScrollBar(QtWidgets.QScrollBar):
 
     def wheelEvent(self, ev):
         offset = ev.angleDelta().y() / 5
-        self.setValue( self.value() - offset)
+        self.setValue(int(self.value() - offset))
         ev.accept()
 
 
